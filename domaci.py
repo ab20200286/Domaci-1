@@ -4,11 +4,11 @@ import sqlite3
 app = Flask(__name__)
 
 
-# Pomoćna funkcija za povezivanje sa bazom
+#Pomoćna funkcija za povezivanje sa bazom
 def connect_db():
     return sqlite3.connect('football_team.db')
 
-# Kreiranje tabele u bazi podataka
+#Kreiranje tabele u bazi podataka
 def create_table():
     conn = connect_db()
     c = conn.cursor()
@@ -21,7 +21,7 @@ def create_table():
     conn.commit()
     conn.close()
 
-# Dodavanje novog igrača u bazu podataka
+#Dodavanje novog igrača u bazu podataka
 @app.route('/players', methods=['POST'])
 def add_player():
     data = request.get_json()
@@ -38,7 +38,7 @@ def add_player():
     
     return jsonify({"message": "Player added successfully"})
 
-# Prikazivanje svih igrača iz baze podataka
+#Prikazivanje svih igrača iz baze podataka
 @app.route('/players', methods=['GET'])
 def get_players():
     conn = connect_db()
@@ -60,7 +60,7 @@ def get_players():
     
     return jsonify(players_list)
 
-# Brisanje igrača iz baze podataka
+#Brisanje igrača iz baze podataka
 @app.route('/players/<int:id>', methods=['DELETE'])
 def delete_player(id):
     conn = connect_db()
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     create_table()
     app.run(debug=True)
 
-# Prikazivanje detalja određenog igrača na osnovu ID-ja
+#Prikazivanje detalja određenog igrača na osnovu ID-ja
 @app.route('/players/<int:id>', methods=['GET'])
 def get_player(id):
     conn = connect_db()
@@ -96,7 +96,7 @@ def get_player(id):
     else:
         return jsonify({"message": "Player not found"}), 404
 
-# Ažuriranje informacija o određenom igraču
+#Ažuriranje informacija o određenom igraču
 @app.route('/players/<int:id>', methods=['PUT'])
 def update_player(id):
     data = request.get_json()
@@ -113,7 +113,7 @@ def update_player(id):
 
     return jsonify({"message": "Player updated successfully"})
 
-# Prikazivanje igrača na osnovu pozicije
+#Prikazivanje igrača na osnovu pozicije
 @app.route('/players/position/<position>', methods=['GET'])
 def get_players_by_position(position):
     conn = connect_db()

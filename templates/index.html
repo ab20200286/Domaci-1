@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football team</title>
+</head>
+<body>
+    <h1>Rad sa igracima fudbalskog tima</h1>
+    <h2>Dodaj novog igraca</h2>
+    <form id="dodaj-igraca-forma">
+        <label for="name">Ime:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="position">Pozicija:</label>
+        <input type="text" id="position" name="position"><br><br>
+        <label for="age">Godine:</label>
+        <input type="number" id="age" name="age"><br><br>
+        <label for="nationality">Nacionalnost:</label>
+        <input type="text" id="nationality" name="nationality"><br><br>
+        <button type="submit">Dodaj igraca</button>
+    </form>
+
+    <script>
+        const dodajIgracaForma = document.getElementById('dodaj-igraca-forma');
+        dodajIgracaForma.addEventListener('submit', event => {
+            event.preventDefault();
+            const formData = new FormData(dodajIgracaForma);
+            const newPlayer = {
+                name: formData.get('name'),
+                position: formData.get('position'),
+                age: formData.get('age'),
+                nationality: formData.get('nationality')
+            };
+            fetch('/players', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newPlayer)
+            })
+            .then(() => {
+                getPlayers(); 
+                dodajIgracaForma.reset(); 
+            });
+        });
+        getPlayers();
+    </script>
+</body>
+</html>
